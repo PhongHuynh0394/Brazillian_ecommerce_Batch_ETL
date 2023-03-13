@@ -13,7 +13,7 @@ services:
       - ./env.template
     command: server /data --console-address ":9090"
     networks:
-      - S_network
+      - de_network
     
   mc:
     image: minio/mc
@@ -26,49 +26,35 @@ services:
     depends_on:
       - s3 
     networks:
-      - S_network
+      - de_network
 
-  # Pipelines
-  etl_pipeline:
-    build:
-      context: ./etl_pipeline
-      dockerfile: ./Dockerfile
-    container_name: etl_pipeline
-    image: etl_pipeline:latest
-    volumes:
-      - ./etl_pipeline:/opt/dagster/app
-    env_file:
-      - ./env.template
-    networks:
-      - S_network
 
-  mysql:
+  de_mysql:
     image: mysql:8.0
-    container_name: mysql
+    container_name: de_mysql
     ports:
       - "3306:3306"
     volumes:
-      - ./storage/mysql-data:/var/lib/mysql
+      - ./storage/mysql_data:/var/lib/mysql
       - ./dataset:/tmp/dataset
     env_file:
       - ./env.template
     networks:
-      - S_network
+      - de_network
 
-  postgres:
-    container_name: postgres
-    image: postgres:14.1-alpine
-    restart: always
+  de_psql:
+    container_name: de_psql
+    image: postgres:15-alpine
     env_file:
       - ./env.template
     ports:
       - '5432:5432'
     volumes: 
-      - ./storage/postgres-data:/var/lib/postgresql/data
+      - ./storage/postgres_data:/var/lib/postgresql/data
     networks:
-      - S_network
+      - de_network
     
-  Notebook:
+  notebook:
     container_name: notebook
     build: 
       context: ./jupyter
@@ -79,7 +65,7 @@ services:
     ports:
       - "8889:8889"
     networks:
-      - S_network
+      - de_network
 
   de_dagster:
     build:
@@ -108,7 +94,7 @@ services:
     env_file:
       - ./env.template
     networks:
-      - S_network
+      - de_network
 
   de_dagster_daemon:
     image: de_dagster:latest
@@ -122,8 +108,23 @@ services:
     env_file:
       - ./env.template
     networks:
-      - S_network
+      - de_network
     
+  # Pipelines
+  etl_pipeline:
+    build:
+      context: ./etl_pipeline
+      dockerfile: ./Dockerfile
+    container_name: etl_pipeline
+    image: etl_pipeline:latest
+    volumes:
+      - ./etl_pipeline:/opt/dagster/app
+    env_file:
+      - ./env.template
+    networks:
+      - de_network
+
 networks:
-  S_network:
+  de_network:
     driver: bridge
+    name: de_network
