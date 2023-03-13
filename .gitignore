@@ -1,0 +1,4 @@
+# ignore dataset and storage
+dataset/
+storage/
+MinIO/config/certs/
