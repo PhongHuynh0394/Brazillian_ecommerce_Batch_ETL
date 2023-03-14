@@ -1,6 +1,7 @@
 #version: '3.9'
 services:
-  s3:
+  minio:
+    hostname: minio
     image: minio/minio
     container_name: minio
     volumes: 
@@ -24,7 +25,7 @@ services:
     entrypoint: >
           /bin/sh -c " until (/usr/bin/mc config host add minio http://minio:9000 minio minio123) do echo '...waiting...' && sleep 1;done; /usr/bin/mc mb minio/warehouse; /usr/bin/mc policy set public minio/warehouse; exit 0; "
     depends_on:
-      - s3 
+      - minio
     networks:
       - de_network
 
