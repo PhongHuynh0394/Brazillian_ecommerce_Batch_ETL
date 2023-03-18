@@ -32,5 +32,5 @@ class PostgreSQLIOManager(IOManager):
                 if_exists="replace",
                 index=False,
                 chunksize=10000,
-                method="multi",
+                method="multi"
             )

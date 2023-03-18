@@ -19,8 +19,10 @@ import pandas as pd
     group_name="Silver_layer"
 )
 def dim_products(bronze_olist_products_dataset: pd.DataFrame, bronze_product_category_name_translation: pd.DataFrame) -> Output[pd.DataFrame]:
-    rp = bronze_olist_products_dataset
-    pcnt = bronze_product_category_name_translation
+    rp = bronze_olist_products_dataset.copy()
+    pcnt = bronze_product_category_name_translation.copy()
+    
+    #merge data
     result = rp.merge(pcnt, on="product_category_name",how="inner")[["product_id", "product_category_name_english"]]
     return Output(
         result,
@@ -50,9 +52,9 @@ def dim_products(bronze_olist_products_dataset: pd.DataFrame, bronze_product_cat
 )
 def fact_sales(bronze_olist_order_items_dataset: pd.DataFrame, bronze_olist_order_payments_dataset: pd.DataFrame, bronze_olist_orders_dataset: pd.DataFrame) -> Output[pd.DataFrame]:
     #set name for easier to understand
-    ro = bronze_olist_orders_dataset
-    roi = bronze_olist_order_items_dataset
-    rop = bronze_olist_order_payments_dataset
+    ro = bronze_olist_orders_dataset.copy()
+    roi = bronze_olist_order_items_dataset.copy()
+    rop = bronze_olist_order_payments_dataset.copy()
 
     #merge those dataframe
     result = pd.merge(ro, roi, on="order_id", how="inner").merge(rop,on="order_id",how="inner")
