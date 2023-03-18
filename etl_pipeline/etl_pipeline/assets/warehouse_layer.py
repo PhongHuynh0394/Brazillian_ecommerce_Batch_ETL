@@ -16,8 +16,8 @@ import pandas as pd
                 "columns": [
                     "monthly",
                     "category",
-                    "sales",
-                    "bills",
+                    "total_sales",
+                    "total_bills",
                     "values_per_bill"
                 ]
             }

@@ -93,8 +93,8 @@ def gold_sales_values_by_category(dim_products: pd.DataFrame, fact_sales: pd.Dat
     dc.groupby(["monthly", "category"])
     .agg(total_sales=("sales", "sum"), total_bills=("bills","sum")).reset_index()
     )
-    result['values_per_bills'] = result['total_sales'] * 1.0 / result['total_bills']
-    result= result[["monthly", "category", "total_sales", "total_bills", "values_per_bills"]]
+    result['values_per_bill'] = result['total_sales'] * 1.0 / result['total_bills']
+    result= result[["monthly", "category", "total_sales", "total_bills", "values_per_bill"]]
     return Output(
         result,
         metadata={
