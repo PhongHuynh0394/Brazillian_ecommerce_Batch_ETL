@@ -10,7 +10,7 @@ dagster_home/logs
 etl_pipeline/etl_pipeline/__pycache__
 etl_pipeline/etl_pipeline/assets/__pycache__
 etl_pipeline/etl_pipeline/resources/__pycache__
-
+.env
 
 
 
