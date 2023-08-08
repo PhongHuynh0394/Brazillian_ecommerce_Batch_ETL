@@ -1,4 +1,4 @@
-# Simple ETL_Pipeline
+# Brazillian ecommerce Batch ETL
 This is a simple ETL pipeline project using brazillian_ecommerce dataset
 
 ## Technologies used
